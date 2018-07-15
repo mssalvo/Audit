@@ -1,14 +1,18 @@
 package eng.tz.ms.la.core;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import eng.tz.ms.la.model.LogSettyng;
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
+
 public class EntitySetting implements Serializable {
 
 	private static final long serialVersionUID = 5687997323479995145L;
@@ -24,6 +28,22 @@ public class EntitySetting implements Serializable {
 	public EntitySetting() {
 	}
 
+	
+	public String getConservazionePathComplete(){
+		return settyng.getConservazionePathComplete();
+	}
+	
+	protected boolean checkDirConservazione() {
+
+		File f = new File(settyng.getConservazionePathComplete());
+		if (!f.exists()) {
+			boolean bol = f.mkdirs();
+			return bol;
+		}
+ 
+		return true;
+	}
+	
 	protected boolean checkAllDir() {
 
 		File f = new File(getPath_Log());
@@ -110,8 +130,35 @@ public class EntitySetting implements Serializable {
 		settyngs.settyng(settyng);
 
 	}
+	
+	public LogSettyng getSettyng() {
+		return settyng;
+	}
 
-	protected String getCryptExtension() {
+	public String getCryptExtension() {
 		return settyng.getEncryptExtension();
 	}
+	
+ public static String generaImpronta(byte[] buffer) {
+ 
+		try {
+			 
+			MessageDigest digest = MessageDigest.getInstance("MD5");
+			digest.update( buffer );
+			// Get the MD5 sum
+			byte[] md5sum = digest.digest();
+			BigInteger bigInt = new BigInteger(1, md5sum);
+			String output = bigInt.toString(16);
+			System.out.println("MD5: " + output);
+			return output;
+		}
+		catch(NoSuchAlgorithmException e) {
+			throw new RuntimeException("Algoritmo MD5 non trovato", e);
+		}		
+	}
+	
+ public boolean isPrintType(){
+	 return settyng.isPrintType();
+ }
+	
 }

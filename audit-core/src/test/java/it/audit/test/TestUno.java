@@ -4,7 +4,7 @@ package it.audit.test;
 import eng.tz.ms.la.core.AuditManager;
 import eng.tz.ms.la.model.MetaField;
 import eng.tz.ms.la.model.MetaLine;
-import eng.tz.ms.la.model.custom.AuditMeta;
+import eng.tz.ms.la.model.custom.AuditMetaActor;
 import eng.tz.ms.la.model.custom.CustomSettyng;
 
 public class TestUno {

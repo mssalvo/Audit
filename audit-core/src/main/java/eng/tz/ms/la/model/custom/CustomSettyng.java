@@ -3,7 +3,7 @@ package eng.tz.ms.la.model.custom;
 import eng.tz.ms.la.core.Settyngs;
 import eng.tz.ms.la.model.LogSettyng;
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public class CustomSettyng implements Settyngs {
 
@@ -12,6 +12,7 @@ public class CustomSettyng implements Settyngs {
 		settyng.setPath_home(System.getProperty("user.dir")+"/../logs");
 		settyng.setEncryptExtension(".ckr");
 		settyng.setLogName("Audit");
+		settyng.setPrintType(false);
 	}
 
 }

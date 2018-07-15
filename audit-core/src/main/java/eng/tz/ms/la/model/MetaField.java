@@ -2,7 +2,7 @@ package eng.tz.ms.la.model;
 
 import java.io.Serializable;
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public class MetaField implements Serializable{
 
@@ -29,6 +29,7 @@ public class MetaField implements Serializable{
 	}
 
 	public String getName() {
+	 
 		return name;
 	}
 

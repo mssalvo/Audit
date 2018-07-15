@@ -1,12 +1,12 @@
 package eng.tz.ms.la.model;
-
+/**
+ * @author s.mariniello
+ */
 public class Info {
 private String name;
 private String value;
 
-/**
- * @author salvatore mariniello
- */
+
 public Info() {
  
 }

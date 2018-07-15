@@ -1,6 +1,9 @@
 package it.audit.reflection.test;
 
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import eng.tz.ms.la.annotation.AuditClass;
 import eng.tz.ms.la.annotation.AuditConfig;
@@ -27,9 +30,16 @@ public class ClassLogTest {
 	 @AuditField
 	 private ClassLogTestField classLogTestField;
 	 
+		@AuditField
+		public BeanUno beanUno;
+		
+		@AuditField
+		public BeanDue beanDue;
 	 
 	public ClassLogTest() {
-		classLogTestField=new ClassLogTestField();	 
+		classLogTestField=new ClassLogTestField();	
+		beanDue=new BeanDue();
+		beanUno=new BeanUno();
 	}
 
 	 
@@ -70,5 +80,29 @@ public class ClassLogTest {
 	public ClassLogTestField getTestLog(){
 		return new ClassLogTestField();
 	}
+	 
+	@AuditMethod(type=List.class)
+	public List<Utente>getUtenti(){
+		List<Utente> u= new ArrayList<Utente>();
+		u.add(new Utente("Gionanni","Lamberti","80078"));
+		u.add(new Utente("Fulvio","Trullo","80078"));
+		u.add(new Utente("Nicola","Verde","80078"));
+		u.add(new Utente("Giulio","Tormolo","80078"));
+		u.add(new Utente("Giuseppe","De Luca","80078"));
+		return u;
+	}
+	
+	@AuditMethod
+	public Utente[] getUtentiArray(){
+		List<Utente> u= new ArrayList<Utente>();
+		u.add(new Utente("Gionannidfgdf","Lamberti","8007855"));
+		u.add(new Utente("Fulviofgdfg","Trullo","8007855"));
+		u.add(new Utente("Nicolafdgf","Verde","8007855"));
+		u.add(new Utente("Giuliogfdfggf","Tormolo","8007855"));
+		u.add(new Utente("Giuseppefdggf","De Luca","8007855"));
+		return u.toArray(new Utente[]{});
+	}
+	
+ 
 	
 }

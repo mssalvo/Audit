@@ -2,46 +2,52 @@ package eng.tz.ms.la.core;
 import java.lang.reflect.InvocationTargetException;
 
 import eng.tz.ms.la.model.Line;
+import eng.tz.ms.la.model.LogSettyng;
 import eng.tz.ms.la.model.MetaLine;
 
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 
 public class AnnotationFactory  {
  
 	private static AnnotationFactory annotationFactory;
-
-	private AnnotationFactory() {
-		 
+	public LogSettyng logSettyng;
+	
+	private AnnotationFactory(LogSettyng logSettyng) {
+		 this.logSettyng=logSettyng;
 	}
 	
-	public static AnnotationFactory get(){
-	if(annotationFactory==null)
-		annotationFactory= new AnnotationFactory();
+	public static AnnotationFactory get(LogSettyng logSettyng){
+	
+	if(annotationFactory==null){
+		annotationFactory= new AnnotationFactory(logSettyng);
+	}else{
+		annotationFactory.logSettyng=logSettyng;
+	}
 	
 	return annotationFactory;
 	}
 	
-	public static Line<MetaLine> audit(Object obj,Object request){
-		Line<MetaLine> lineBuilder=auditBuilder(obj,request);
+	public static Line<MetaLine> audit(Object obj,Object request,LogSettyng logSettyng){
+		Line<MetaLine> lineBuilder=auditBuilder(obj,request,logSettyng);
 		if(lineBuilder==null){
 			return new Line<MetaLine>();
 		}
 		return lineBuilder;
 	}
-	public static Line<MetaLine> audit(Object obj){
-		Line<MetaLine> lineBuilder=auditBuilder(obj,null);
+	public static Line<MetaLine> audit(Object obj,LogSettyng logSettyng){
+		Line<MetaLine> lineBuilder=auditBuilder(obj,null,logSettyng);
 		if(lineBuilder==null){
 			return new Line<MetaLine>();
 		}
 		return lineBuilder;
 	}
-	private static Line<MetaLine> auditBuilder(Object obj,Object request)
+	private static Line<MetaLine> auditBuilder(Object obj,Object request,LogSettyng logSettyng)
 	{
 		try {
-			return AnnotationFactory.get().auditBean(obj,request);
+			return AnnotationFactory.get(logSettyng).auditBean(obj,request);
 		} catch (IllegalArgumentException e) {
 	
 		} catch (InstantiationException e) {
@@ -62,7 +68,7 @@ public class AnnotationFactory  {
 		Line<MetaLine> line= new Line<MetaLine>();
 		MetaLine builder = new MetaLine();
 		if(obj!=null){
-		builder=AnnotationUtil.audit(obj,builder,objRequest,line);
+		builder=AnnotationUtil.audit(obj,builder,objRequest,line,this.logSettyng);
 	    line.setT(builder);
 		}
 		return line;

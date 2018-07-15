@@ -1,6 +1,6 @@
 package eng.tz.ms.la.model;
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public enum States {
 	PENDING("0"), INVIATE("1"), CLOSE("2");

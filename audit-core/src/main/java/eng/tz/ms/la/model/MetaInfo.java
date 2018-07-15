@@ -3,7 +3,7 @@ package eng.tz.ms.la.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public class MetaInfo extends ArrayList<Info> {
 

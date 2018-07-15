@@ -27,7 +27,7 @@ import eng.tz.ms.la.model.MetaLine;
 import eng.tz.ms.la.model.OperationExportFile;
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 
 public class AuditManager extends EntitySetting {
@@ -47,18 +47,21 @@ public class AuditManager extends EntitySetting {
 	private AuditManager() {
 		this.checkAllDir();
 		this.auditInit();
+		this.checkDirConservazione();
 	}
 
 	private AuditManager(String keyUser) {
 		 this.actor=keyUser;
 		 this.checkAllDir();
 		 auditInit();
+		 this.checkDirConservazione();
 	}
 	
 	private AuditManager(Settyngs settyngs) {
 		this.setSettyng(settyngs);
 		checkAllDir();
 		auditInit();
+		this.checkDirConservazione();
 	}
 	
 	private AuditManager(Settyngs settyngs,String keyUser) {
@@ -66,6 +69,7 @@ public class AuditManager extends EntitySetting {
 		this.setSettyng(settyngs);
 		this.checkAllDir();
 		this.auditInit();
+		this.checkDirConservazione();
 	}
 
  
@@ -106,7 +110,7 @@ public class AuditManager extends EntitySetting {
 	}
 
 	public AnnotationFactory annotation(){
-		return AnnotationFactory.get();
+		return AnnotationFactory.get(getSettyng());
 	}
 	
 	public AuditManager build(){
@@ -153,7 +157,7 @@ public class AuditManager extends EntitySetting {
 	public AuditManager log(MetaLine line,Object reflection,Object request) {
 		this.metaLine.addAll(line);
 		if(reflection!=null){
-		Line<MetaLine> lineAnn=AnnotationFactory.audit(reflection, request);
+		Line<MetaLine> lineAnn=AnnotationFactory.audit(reflection, request,getSettyng());
 		if(lineAnn!=null && lineAnn.getT()!=null)
 		this.metaLine.addAll(lineAnn.getT());
 		if(lineAnn.getMetaActor()!=null && this.auditMetaActor==null)
@@ -165,7 +169,7 @@ public class AuditManager extends EntitySetting {
 	
 	public AuditManager log(Object reflection,Object request) {
 		if(reflection!=null){
-		Line<MetaLine> lineLog=AnnotationFactory.audit(reflection, request);	
+		Line<MetaLine> lineLog=AnnotationFactory.audit(reflection, request,getSettyng());	
 		if(lineLog!=null && lineLog.getT()!=null)
 		this.metaLine.addAll(lineLog.getT());
 		if(lineLog.getMetaActor()!=null && this.auditMetaActor==null)
@@ -179,7 +183,7 @@ public class AuditManager extends EntitySetting {
 		
 		this.metaLine.addAll(line);
 		if(reflection!=null){
-		Line<MetaLine> lineAnn=AnnotationFactory.audit(reflection);	
+		Line<MetaLine> lineAnn=AnnotationFactory.audit(reflection,getSettyng());	
 		if(lineAnn!=null && lineAnn.getT()!=null)
 		this.metaLine.addAll(lineAnn.getT());
 		if(lineAnn.getMetaActor()!=null && this.auditMetaActor==null)
@@ -192,7 +196,7 @@ public class AuditManager extends EntitySetting {
 	public AuditManager log(Object reflection) {
 		
 		if(reflection!=null){
-			Line<MetaLine> lineLog=AnnotationFactory.audit(reflection);	
+			Line<MetaLine> lineLog=AnnotationFactory.audit(reflection,getSettyng());	
 			if(lineLog!=null && lineLog.getT()!=null)
 			this.metaLine.addAll(lineLog.getT());
 			if(lineLog.getMetaActor()!=null && this.auditMetaActor==null)
@@ -279,6 +283,7 @@ public class AuditManager extends EntitySetting {
 	public AuditManager laSettyng(Settyngs settyngs) {
 		this.setSettyng(settyngs);
 		checkAllDir();
+		this.checkDirConservazione();
 		return this;
 	}
 	
@@ -289,6 +294,7 @@ public class AuditManager extends EntitySetting {
 		} catch (IllegalAccessException e) {
 		}
 		checkAllDir();
+		this.checkDirConservazione();
 		return this;
 	}
 
@@ -371,18 +377,18 @@ public class AuditManager extends EntitySetting {
 	public void export(boolean isCryptFile, Export export) throws UnsupportedEncodingException, IOException {
 		if (isCryptFile) {
 			this.cryptFile();
-			export.call(new OperationExportFile(new File(getPathAllCompleteLog() + getCryptExtension())));
+			export.call(new OperationExportFile(new File(getPathAllCompleteLog() + getCryptExtension()),this));
 		} else {
-			export.call(new OperationExportFile(new File(getPathAllCompleteLog())));
+			export.call(new OperationExportFile(new File(getPathAllCompleteLog()),this));
 		}
 	}
 
 	public void exportUser(boolean isCryptFile, Export export) throws UnsupportedEncodingException, IOException {
 		if (isCryptFile) {
 			this.cryptFileUser();
-			export.call(new OperationExportFile(new File(getPathUserLogginCompleteLog() + getCryptExtension())));
+			export.call(new OperationExportFile(new File(getPathUserLogginCompleteLog() + getCryptExtension()),this));
 		} else {
-			export.call(new OperationExportFile(new File(getPathUserLogginCompleteLog())));
+			export.call(new OperationExportFile(new File(getPathUserLogginCompleteLog()),this));
 		}
 	}
 	
@@ -405,7 +411,7 @@ public class AuditManager extends EntitySetting {
 	private boolean cryptFile() {
 
 		FileInputStream fstream = null;
-		DataInputStream in = null;
+		DataInputStream in = null; 
 		BufferedWriter out = null;
 
 		try {

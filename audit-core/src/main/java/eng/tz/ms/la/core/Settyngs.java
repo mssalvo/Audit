@@ -8,7 +8,7 @@ package eng.tz.ms.la.core;
 import eng.tz.ms.la.model.LogSettyng;
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public interface Settyngs {
 	void settyng(LogSettyng settyng);

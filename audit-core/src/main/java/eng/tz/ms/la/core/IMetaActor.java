@@ -1,6 +1,6 @@
 package eng.tz.ms.la.core;
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public interface IMetaActor {
 public String getActor();

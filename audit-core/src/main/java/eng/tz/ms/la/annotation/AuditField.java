@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 
 @Retention(value = RUNTIME)
@@ -17,4 +17,5 @@ import java.lang.annotation.Target;
 public @interface AuditField {
 	public String key() default "";
 	public boolean print() default true;
+	public boolean printType() default false;
 }

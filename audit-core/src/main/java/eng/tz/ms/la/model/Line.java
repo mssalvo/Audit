@@ -12,7 +12,7 @@ import java.util.Date;
 import eng.tz.ms.la.core.IMetaActor;
 
 /**
- * @author salvatore mariniello
+ * @author s.mariniello
  */
 public class Line<T>  implements Serializable {
 
